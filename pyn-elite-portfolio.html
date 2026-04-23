@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PYN Elite Fund – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --gold: #c9a84c;
+    --gold-light: #e2c97e;
+    --cream: #f8f5ef;
+    --text: #1e2d3d;
+    --muted: #6b7c93;
+    --border: #ddd8ce;
+    --white: #ffffff;
+    --accent: #2a5f8f;
+    --green: #2d7a4f;
+    --red: #c0392b;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── TOP NAV ── */
+  .topbar {
+    background: var(--navy);
+    color: #ccc;
+    font-size: 12.5px;
+    padding: 8px 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+  }
+  .topbar .nav-label { color: #aaa; }
+  .topbar .nav-link { color: #ddd; text-decoration: none; transition: color .2s; }
+  .topbar .nav-link:hover { color: var(--gold); }
+  .topbar .nav-change { color: var(--red); font-weight: 600; }
+
+  .nav {
+    background: rgba(13,27,42,0.97);
+    backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 40px;
+    height: 64px;
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--white); letter-spacing: .5px;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: #c8d4e0; text-decoration: none; font-size: 14px;
+    font-weight: 500; letter-spacing: .3px;
+    padding: 4px 0; border-bottom: 2px solid transparent;
+    transition: all .2s;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--gold-light); border-bottom-color: var(--gold);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; height: 340px;
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 55%, #0d2640 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  /* bridge-like decorative lines */
+  .hero::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px; font-weight: 700;
+    color: var(--white); letter-spacing: 1px;
+    position: relative; z-index: 1;
+    margin-bottom: 20px;
+    animation: fadeUp .8s ease both;
+  }
+  .hero-subtitle {
+    max-width: 680px;
+    color: rgba(255,255,255,.72);
+    font-size: 14.5px; line-height: 1.75;
+    position: relative; z-index: 1;
+    animation: fadeUp .8s .15s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: center;
+    gap: 0;
+  }
+  .tab {
+    padding: 18px 48px; font-size: 14px; font-weight: 500;
+    color: var(--muted); cursor: pointer; border: none;
+    background: none; border-bottom: 3px solid transparent;
+    transition: all .2s; letter-spacing: .3px;
+  }
+  .tab:hover { color: var(--accent); }
+  .tab.active {
+    color: var(--navy); border-bottom-color: var(--navy); font-weight: 600;
+  }
+
+  /* ── MAIN ── */
+  .main { max-width: 960px; margin: 0 auto; padding: 56px 24px 80px; }
+
+  /* ── HOLDING CARD ── */
+  .holding {
+    display: grid; grid-template-columns: 100px 1fr;
+    gap: 0 36px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0; transform: translateY(24px);
+    animation: fadeUp .6s ease forwards;
+  }
+  .holding:nth-child(1) { animation-delay: .1s; }
+  .holding:nth-child(2) { animation-delay: .2s; }
+  .holding:nth-child(3) { animation-delay: .3s; }
+  .holding:nth-child(4) { animation-delay: .4s; }
+  .holding:nth-child(5) { animation-delay: .5s; }
+  .holding:last-child { border-bottom: none; }
+
+  .logo-col {
+    display: flex; align-items: flex-start; padding-top: 6px;
+  }
+  .logo-box {
+    width: 80px; height: 64px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 13px;
+    letter-spacing: .5px; text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,.1);
+    overflow: hidden;
+  }
+  .logo-sacombank { background: linear-gradient(135deg,#003087,#1a5299); color: #fff; }
+  .logo-hpg { background: linear-gradient(135deg,#1a3a6b,#2e5fa3); color: #fff; }
+  .logo-mwg { background: linear-gradient(135deg,#e67e00,#f39c12); color: #fff; }
+  .logo-vre { background: linear-gradient(135deg,#0099cc,#00bcd4); color: #fff; }
+  .logo-msn { background: linear-gradient(135deg,#c0392b,#e74c3c); color: #fff; }
+
+  .content-col {}
+
+  .holding-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700;
+    color: var(--navy); margin-bottom: 6px;
+  }
+  .holding-weight {
+    color: var(--gold); font-weight: 600; font-size: 14px;
+    letter-spacing: .3px; margin-bottom: 14px;
+  }
+  .holding-desc {
+    color: #4a5f72; font-size: 14px; line-height: 1.75;
+    max-width: 640px; margin-bottom: 24px;
+  }
+
+  /* ── STATS TABLE ── */
+  .stats {
+    background: #f1ede5;
+    border-radius: 12px;
+    overflow: hidden;
+    display: grid; grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--border);
+  }
+  .stat-row {
+    display: contents;
+  }
+  .stat-cell {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 20px; font-size: 13.5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-cell:nth-child(odd) { border-right: 1px solid var(--border); }
+  .stat-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .stat-label { color: var(--muted); }
+  .stat-value { font-weight: 600; color: var(--navy); }
+  .stat-value.up { color: var(--green); }
+  .stat-value.highlight { color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: #8a9bb0;
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 12.5px;
+    line-height: 1.8;
+  }
+  footer a { color: var(--gold-light); text-decoration: none; }
+  footer strong { color: #c8d4e0; }
+
+  /* ── TICKER NAV ── */
+  .ticker-strip {
+    background: #f1ede5;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 40px;
+    font-size: 12.5px; color: var(--muted);
+    display: flex; gap: 32px;
+  }
+  .ticker-item strong { color: var(--navy); }
+  .ticker-item .chg.pos { color: var(--green); }
+  .ticker-item .chg.neg { color: var(--red); }
+
+  @media (max-width: 700px) {
+    .holding { grid-template-columns: 1fr; gap: 16px; }
+    .tabs { flex-wrap: wrap; }
+    .tab { padding: 14px 20px; }
+    .nav { padding: 0 20px; }
+    .topbar { padding: 8px 20px; font-size: 11px; }
+    .hero-title { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span class="nav-label">NAV: <strong style="color:#e2c97e">565.845 € (22.04.2026)</strong></span>
+  <span class="nav-label">1d <span class="nav-change">▼ 0.39%</span></span>
+  <a href="#" class="nav-link">Home</a>
+  <a href="#" class="nav-link">PYN Elite ▾</a>
+  <a href="#" class="nav-link">News</a>
+</div>
+
+<!-- MAIN NAV -->
+<nav class="nav">
+  <div class="nav-logo">PYN <span>Elite</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#" class="active">PYN Elite</a></li>
+    <li><a href="#">News</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1 class="hero-title">Portfolio</h1>
+  <p class="hero-subtitle">
+    Here you can find information about the top holdings in the PYN Elite portfolio.
+    The numbers are updated monthly. Altogether, we hold approximately 30 names in PYN Elite Portfolio.
+    The following portfolio data was updated on the <strong style="color:var(--gold-light)">10th of April 2026</strong>.
+  </p>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-strip">
+  <div class="ticker-item"><strong>STB</strong> 28.5 <span class="chg pos">+1.2%</span></div>
+  <div class="ticker-item"><strong>HPG</strong> 26.8 <span class="chg pos">+0.8%</span></div>
+  <div class="ticker-item"><strong>MWG</strong> 65.3 <span class="chg neg">-0.4%</span></div>
+  <div class="ticker-item"><strong>VRE</strong> 32.1 <span class="chg pos">+2.1%</span></div>
+  <div class="ticker-item"><strong>MSN</strong> 78.6 <span class="chg neg">-0.9%</span></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active">Portfolio</button>
+  <button class="tab">Responsible Investing</button>
+  <button class="tab">Subscription</button>
+  <button class="tab">Redemption</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- SACOMBANK -->
+  <div class="holding">
+    <div class="logo-col">
+      <div class="logo-box logo-sacombank">SACOM<br>BANK</div>
+    </div>
+    <div class="content-col">
+      <h2 class="holding-name">Sacombank</h2>
+      <div class="holding-weight">Portfolio weight 15.0%</div>
+      <p class="holding-desc">
+        Sacombank is the 6th largest bank by loans, and the 4th largest by branches. Sacombank has been bearing a large burden of non-performing assets inherited from the financial crisis a decade ago. In December 2025, the bank appointed a new CEO who previously led LPBank through a successful turnaround, improving both the business and the share price. This signals that Sacombank is close to finishing its restructuring, with VAMC asset sales nearing completion, new shareholders expected to join, and the bank entering a new growth phase.
+      </p>
+      <div class="stats">
+        <div class="stat-cell"><span class="stat-label">Revenue growth</span><span class="stat-value up">13.2%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap</span><span class="stat-value">4 090</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit growth</span><span class="stat-value up">17.2%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap target</span><span class="stat-value">6 500</span></div>
+        <div class="stat-cell"><span class="stat-label">Revenue 2025</span><span class="stat-value">1 038</span></div>
+        <div class="stat-cell"><span class="stat-label">Target valuation</span><span class="stat-value highlight">P/B 2.0</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit 2025</span><span class="stat-value">192</span></div>
+        <div class="stat-cell"><span class="stat-label">Upside potential</span><span class="stat-value up">59%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HPG -->
+  <div class="holding">
+    <div class="logo-col">
+      <div class="logo-box logo-hpg">HOA<br>PHAT</div>
+    </div>
+    <div class="content-col">
+      <h2 class="holding-name">HPG – Hoa Phat Group</h2>
+      <div class="holding-weight">Portfolio weight 13.1%</div>
+      <p class="holding-desc">
+        Hoa Phat Group (HPG) is the largest steel producer in Southeast Asia. Following completion of the Dung Quat 2 complex in late 2025, the group has successfully joined the top 30 largest steel companies globally. Beyond its core steel business, Hoa Phat is aggressively expanding in real estate and high-impact infrastructure, including the supply of specialized steel for the high-speed railway and the Red River Scenic Boulevard. This mega project is set to completely transform Hanoi's urban landscape. We anticipate robust growth in HPG's financial performance over the coming years.
+      </p>
+      <div class="stats">
+        <div class="stat-cell"><span class="stat-label">Revenue growth</span><span class="stat-value up">11.6%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap</span><span class="stat-value">6 969</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit growth</span><span class="stat-value up">2.8%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap target</span><span class="stat-value">18 000</span></div>
+        <div class="stat-cell"><span class="stat-label">Revenue 2025</span><span class="stat-value">5 056</span></div>
+        <div class="stat-cell"><span class="stat-label">Target valuation</span><span class="stat-value highlight">P/E 15</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit 2025</span><span class="stat-value">500</span></div>
+        <div class="stat-cell"><span class="stat-label">Upside potential</span><span class="stat-value up">158%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MWG -->
+  <div class="holding">
+    <div class="logo-col">
+      <div class="logo-box logo-mwg">MWG</div>
+    </div>
+    <div class="content-col">
+      <h2 class="holding-name">MWG – Mobile World</h2>
+      <div class="holding-weight">Portfolio weight 10.4%</div>
+      <p class="holding-desc">
+        Mobile World Group is Vietnam's largest consumer electronics and pharmacy retail chain. With over 4,000 stores across Vietnam, MWG dominates the ICT retail segment through Thegioididong and Dien May Xanh, while its pharmacy chain An Khang continues rapid expansion. The group's digital transformation and omnichannel strategy positions it strongly for continued growth in Vietnam's rising middle-class consumption market.
+      </p>
+      <div class="stats">
+        <div class="stat-cell"><span class="stat-label">Revenue growth</span><span class="stat-value up">18.3%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap</span><span class="stat-value">3 820</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit growth</span><span class="stat-value up">24.5%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap target</span><span class="stat-value">7 200</span></div>
+        <div class="stat-cell"><span class="stat-label">Revenue 2025</span><span class="stat-value">4 310</span></div>
+        <div class="stat-cell"><span class="stat-label">Target valuation</span><span class="stat-value highlight">P/E 18</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit 2025</span><span class="stat-value">215</span></div>
+        <div class="stat-cell"><span class="stat-label">Upside potential</span><span class="stat-value up">88%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VRE -->
+  <div class="holding">
+    <div class="logo-col">
+      <div class="logo-box logo-vre">VRE</div>
+    </div>
+    <div class="content-col">
+      <h2 class="holding-name">VRE – Vincom Retail</h2>
+      <div class="holding-weight">Portfolio weight 8.7%</div>
+      <p class="holding-desc">
+        Vincom Retail is Vietnam's largest mall operator with a nationwide network of 83 shopping centers. As Vietnam's middle class grows rapidly, mall footfall continues to climb year-on-year. VRE benefits from long-term lease agreements, diversified tenant mix, and its unique position as the only professionally managed retail REIT-like vehicle listed in Vietnam.
+      </p>
+      <div class="stats">
+        <div class="stat-cell"><span class="stat-label">Revenue growth</span><span class="stat-value up">9.4%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap</span><span class="stat-value">2 950</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit growth</span><span class="stat-value up">14.1%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap target</span><span class="stat-value">5 100</span></div>
+        <div class="stat-cell"><span class="stat-label">Revenue 2025</span><span class="stat-value">680</span></div>
+        <div class="stat-cell"><span class="stat-label">Target valuation</span><span class="stat-value highlight">P/E 20</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit 2025</span><span class="stat-value">148</span></div>
+        <div class="stat-cell"><span class="stat-label">Upside potential</span><span class="stat-value up">73%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MSN -->
+  <div class="holding">
+    <div class="logo-col">
+      <div class="logo-box logo-msn">MASAN</div>
+    </div>
+    <div class="content-col">
+      <h2 class="holding-name">MSN – Masan Group</h2>
+      <div class="holding-weight">Portfolio weight 7.2%</div>
+      <p class="holding-desc">
+        Masan Group is one of Vietnam's largest private conglomerates, with leading positions in consumer goods (Masan Consumer), modern retail (WinCommerce), and mineral processing (Masan High-Tech Materials). The group's integrated Point of Life ecosystem — linking retail, banking, and consumer brands — is redefining how Vietnam's 100 million citizens shop, bank, and consume.
+      </p>
+      <div class="stats">
+        <div class="stat-cell"><span class="stat-label">Revenue growth</span><span class="stat-value up">14.7%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap</span><span class="stat-value">5 340</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit growth</span><span class="stat-value up">31.2%</span></div>
+        <div class="stat-cell"><span class="stat-label">Market cap target</span><span class="stat-value">9 800</span></div>
+        <div class="stat-cell"><span class="stat-label">Revenue 2025</span><span class="stat-value">3 120</span></div>
+        <div class="stat-cell"><span class="stat-label">Target valuation</span><span class="stat-value highlight">P/E 22</span></div>
+        <div class="stat-cell"><span class="stat-label">Net profit 2025</span><span class="stat-value">243</span></div>
+        <div class="stat-cell"><span class="stat-label">Upside potential</span><span class="stat-value up">84%</span></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p><strong>PYN Elite Fund</strong> – Quản lý bởi PYN Fund Management Oy</p>
+  <p style="margin-top:6px">
+    Dữ liệu danh mục cập nhật ngày <strong>10/04/2026</strong> &nbsp;·&nbsp;
+    NAV: <strong>565.845 €</strong> (22/04/2026) &nbsp;·&nbsp;
+    <a href="#">Chính sách bảo mật</a>
+  </p>
+  <p style="margin-top:10px;font-size:11.5px;color:#5a6e82">
+    Thông tin trên đây chỉ mang tính tham khảo và không cấu thành lời khuyên đầu tư.
+    Đầu tư vào quỹ có rủi ro mất vốn.
+  </p>
+</footer>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
